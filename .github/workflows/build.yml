@@ -50,7 +50,7 @@ jobs:
           west init -l config
           west update
           west zephyr-export
-          pip install -U -r zephyr/scripts/requirements.txt
+          # pip install -U -r zephyr/scripts/requirements.txt
           git config --global --add safe.directory $PWD
 
       - name: West build
