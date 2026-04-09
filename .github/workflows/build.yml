@@ -8,18 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    strategy:
+    strategy
       matrix:
         include:
-          - { board: hw75_keyboard@1.1, keymap: hw75_keyboard.keymap  }
-          - { board: hw75_keyboard@1.2, keymap: hw75_keyboard.keymap  }
-          - { board: hw75_dynamic@A,    keymap: hw75_dynamic.keymap   }
-          - { board: hw75_dynamic@B,    keymap: hw75_dynamic.keymap   }
+          - { board: hw75_keyboard@1.1, keymap: hw75_keyboard.keymap }
+          - { board: hw75_keyboard@1.2, keymap: hw75_keyboard.keymap }
+          - { board: hw75_dynamic@A,    keymap: hw75_dynamic.keymap  }
+          - { board: hw75_dynamic@B,    keymap: hw75_dynamic.keymap  }
     steps:
-      - name: Prepare variables
-        run: |
-          echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -29,29 +25,25 @@ jobs:
           apt-get install -y python3-pip protobuf-compiler curl
           curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
           apt-get install -y nodejs
-          pip install -U fonttools
+          pip install -U fonttools west
           npm install -g lv_font_conv
 
       - name: Cache west modules
         uses: actions/cache@v4
         continue-on-error: true
-        env:
-          cache_name: cache-zephyr-${{ env.zephyr_version }}-modules
         with:
           path: |
             modules/
             zephyr/
             zmk/
-          key: ${{ runner.os }}-build-${{ env.cache_name }}-${{ hashFiles('**/west.yml', '**/build.yaml') }}
+          key: ${{ runner.os }}-zephyr-modules-${{ hashFiles('**/west.yml') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache_name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-zephyr-modules-
 
       - name: Prepare west
         run: |
           west init -l config
-          west update
+          west update --fetch-all -n
           west zephyr-export
           pip install -U -r zephyr/scripts/requirements.txt
           git config --global --add safe.directory $PWD
@@ -75,7 +67,7 @@ jobs:
           fi
           cp build/zephyr/zmk.bin "build/artifacts/${{ matrix.board }}-zmk.bin"
 
-      - name: Archive
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: firmware-${{ matrix.board }}
@@ -89,7 +81,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download artifacts
+      - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           pattern: firmware-*
@@ -101,7 +93,7 @@ jobs:
         run: |
           EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
           echo "RELEASE_BODY<<$EOF" >> $GITHUB_OUTPUT
-          sed 's/{{TAG}}/${{ github.ref_name }}/g' .github/RELEASE_TEMPLATE.md >> $GITHUB_OUTPUT
+          cat .github/RELEASE_TEMPLATE.md | sed 's/{{TAG}}/${{ github.ref_name }}/g' >> $GITHUB_OUTPUT
           echo "$EOF" >> $GITHUB_OUTPUT
 
       - name: Publish release
