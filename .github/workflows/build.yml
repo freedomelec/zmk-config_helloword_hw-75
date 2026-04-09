@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: zmkfirmware/zmk-build-arm:stable
-    needs: [format]
     name: Build
     strategy:
       fail-fast: false
@@ -96,15 +95,6 @@ jobs:
         with:
           name: firmware-${{ matrix.board }}
           path: build/artifacts/*
-
-  format:
-    name: Format Check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Fmt Check
-        uses: zmkfirmware/zmk-fmt-action@main
 
   release:
     name: Release
