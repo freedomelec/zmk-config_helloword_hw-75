@@ -6,10 +6,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     container:
       image: zmkfirmware/zmk-build-arm:stable
-
     strategy:
       matrix:
         include:
@@ -17,14 +15,13 @@ jobs:
           - { board: hw75_keyboard@1.2, keymap: hw75_keyboard.keymap  }
           - { board: hw75_dynamic@A,    keymap: hw75_dynamic.keymap   }
           - { board: hw75_dynamic@B,    keymap: hw75_dynamic.keymap   }
-
     steps:
       - name: Prepare variables
         run: |
           echo "zephyr_version=${ZEPHYR_VERSION}" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up build tools
         run: |
@@ -36,7 +33,7 @@ jobs:
           npm install -g lv_font_conv
 
       - name: Cache west modules
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@v4
         continue-on-error: true
         env:
           cache_name: cache-zephyr-${{ env.zephyr_version }}-modules
@@ -56,7 +53,7 @@ jobs:
           west init -l config
           west update
           west zephyr-export
-          pip install -r zephyr/scripts/requirements.txt
+          pip install -U -r zephyr/scripts/requirements.txt
           git config --global --add safe.directory $PWD
 
       - name: West build
@@ -69,7 +66,7 @@ jobs:
 
       - name: Rename artifacts
         run: |
-          mkdir build/artifacts
+          mkdir -p build/artifacts
           if [ -f build/zephyr/zmk.uf2 ]; then
             cp build/zephyr/zmk.uf2 "build/artifacts/${{ matrix.board }}-zmk.uf2"
           fi
@@ -79,25 +76,24 @@ jobs:
           cp build/zephyr/zmk.bin "build/artifacts/${{ matrix.board }}-zmk.bin"
 
       - name: Archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
-          name: firmware
+          name: firmware-${{ matrix.board }}
           path: build/artifacts
 
   release:
     if: ${{ startsWith(github.ref, 'refs/tags/') }}
     needs: build
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: firmware
+          pattern: firmware-*
+          merge-multiple: true
           path: firmware
 
       - name: Prepare release notes
@@ -115,6 +111,5 @@ jobs:
           file_glob: true
           tag: ${{ github.ref }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          body: |
-            ${{ steps.release.outputs.RELEASE_BODY }}
+          body: ${{ steps.release.output.RELEASE_BODY }}
           prerelease: true
