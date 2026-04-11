@@ -23,6 +23,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Replace apt sources to Aliyun
+        run: |
+          sed -i 's|http://azure.archive.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
+          sed -i 's|http://archive.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
+          sed -i 's|http://security.ubuntu.com|http://mirrors.aliyun.com|g' /etc/apt/sources.list
+
       - name: Set up build tools
         run: |
           apt-get update
