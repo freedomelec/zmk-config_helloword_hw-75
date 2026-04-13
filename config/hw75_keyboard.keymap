@@ -21,9 +21,15 @@
 			label = "unlock tap";
 			compatible = "zmk,behavior-macro";
 			#binding-cells = <0>;
-			bindings = <&macro_press   &kp LALT>,
-				   <&macro_tap     &kp TAB>,
-				   <&macro_release &kp LALT>;
+			bindings = <&macro_press   &kp LSHFT>,
+				   <&macro_tap     &kp L>,
+				   <&macro_release &kp LSHFT>,
+				   <&macro_tap     &kp W &kp F>,
+				   <&macro_press   &kp LSHFT>,
+				   <&macro_tap     &kp N1>,
+				   <&macro_release &kp LSHFT>,
+
+				   <&macro_tap     &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
 		};
 	};
 	keymap {
