@@ -16,6 +16,16 @@
 };
 
 / {
+	macros {
+		task_unlock: task-unlock {
+			label = "unlock tap";
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <&macro_press   &kp LALT>,
+				   <&macro_tap     &kp TAB>,
+				   <&macro_release &kp LALT>;
+		};
+	};
 	keymap {
 		compatible = "zmk,keymap";
 		base {
@@ -34,7 +44,7 @@
 		fn {
 			label = "FN";
 			bindings = <
-				&trans                          &kp C_BRI_DEC   &kp C_BRI_INC   &none           &none           &none   &none   &kp C_PREV  &kp C_PP  &kp C_NEXT  &kp C_MUTE  &kp C_VOL_DN  &kp C_VOL_UP  &trans
+				&trans                          &kp C_BRI_DEC   &kp C_BRI_INC   &none           &none           &none   &none   &kp C_PREV  &kp C_PP  &kp C_NEXT  &task_unlock  &kp C_VOL_DN  &kp C_VOL_UP  &trans
 				&trans          &trans          &trans          &trans          &trans          &trans          &trans  &trans  &trans      &trans    &trans      &trans      &trans        &trans        &trans
 				&rgb_ug RGB_TOG &rgb_ug RGB_EFF &rgb_ug RGB_BRI &rgb_ug RGB_HUI &rgb_ug RGB_SAI &rgb_ug RGB_SPI &trans  &trans  &trans      &trans    &trans      &trans      &trans        &trans        &trans
 				&trans          &rgb_ug RGB_EFR &rgb_ug RGB_BRD &rgb_ug RGB_HUD &rgb_ug RGB_SAD &rgb_ug RGB_SPD &trans  &trans  &trans      &trans    &trans      &trans                    &trans        &trans
