@@ -11,9 +11,7 @@
 #define FN 1
 #define TOUCH 2
 
-&sl {
-  release-after-ms = <500>;
-};
+&sl { release-after-ms = <500>; };
 
 / {
     macros {
@@ -38,6 +36,14 @@
                 <&kp LSHFT>,
                 <&macro_tap>,
                 <&kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
+        };
+
+        lock_tap: lock_tap {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            bindings = <&macro_press>, <&kp LEFT_WIN &kp L>, <&macro_release>;
+
+            label = "LOCK_TAP";
         };
     };
 
@@ -91,7 +97,7 @@
 &trans          &trans  &trans        &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans          &trans                  &trans
 &trans          &trans  &trans        &trans  &trans  &trans  &trans  &trans        &trans  &trans  &trans  &trans                  &trans          &trans
 &trans  &trans  &trans                                &trans                                &trans  &trans  &trans          &trans  &trans  &trans
-                        &kp C_VOL_DN  &none   &none   &none   &none   &kp C_VOL_UP
+                        &lock_tap  &none   &none   &none   &none   &kp C_VOL_UP
             >;
         };
     };
