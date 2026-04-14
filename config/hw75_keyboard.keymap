@@ -17,25 +17,25 @@
 
 / {
 	macros {
-    task_unlock: task_unlock {
-        compatible = "zmk,behavior-macro";
-        #binding-cells = <0>;
-        bindings = <
-            &kp LSHFT &kp L
-            &kp W &kp F
-            &kp LSHFT &kp N1
-            &kp N1 &kp N1 &kp N1 &kp N1
-            &kp N1 &kp N1 &kp N1 &kp N1
-            &kp RET
-        >;
-    };
+    	task_unlock: task_unlock {
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <
+				&kp LSHFT &kp L
+				&kp W &kp F
+				&kp LSHFT &kp N1
+				&kp N1 &kp N1 &kp N1 &kp N1
+				&kp N1 &kp N1 &kp N1 &kp N1
+				&kp RET
+			>;
+		};
 
     // 超小体积 Win+L 锁屏
-    lock_tap: lock_tap {
-        compatible = "zmk,behavior-macro";
-        #binding-cells = <0>;
-        bindings = <&kp LGUI &kp L>;
-    };
+    	lock_tap: lock_tap {
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <&kp LGUI &kp L>;
+		};
     };
 
 	keymap {
