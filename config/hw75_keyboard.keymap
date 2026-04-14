@@ -31,13 +31,14 @@
 
 				   <&macro_tap     &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
 		};
-        lock_tap: lock_tap {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <&macro_press>, <&kp LEFT_WIN &kp L>, <&macro_release>;
-
-            label = "LOCK_TAP";
-        };
+		lock_tap: lock-tap {
+			label = "unlock tap";
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <&macro_press   &kp LEFT_WIN>,
+				   <&macro_tap     &kp L>,
+				   <&macro_release &kp LEFT_WIN>,
+		};
     };
 
 	keymap {
