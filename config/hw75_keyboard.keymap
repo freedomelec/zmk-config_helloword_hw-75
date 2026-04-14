@@ -28,7 +28,7 @@
 				   <&macro_tap     &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
 		};
 		lock_tap: lock_tap {
-			label = "unlock tap";
+			label = "lock";
 			compatible = "zmk,behavior-macro";
 			#binding-cells = <0>;
 			bindings = <
