@@ -11,31 +11,25 @@
 #define FN 1
 #define TOUCH 2
 
-&sl { release-after-ms = <500>; };
+&sl {
+  release-after-ms = <500>;
+};
 
 / {
     macros {
-        task_unlock: task-unlock {
-            label = "unlock tap";
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings =
-                <&macro_press>,
-                <&kp LSHFT>,
-                <&macro_tap>,
-                <&kp L>,
-                <&macro_release>,
-                <&kp LSHFT>,
-                <&macro_tap>,
-                <&kp W &kp F>,
-                <&macro_press>,
-                <&kp LSHFT>,
-                <&macro_tap>,
-                <&kp N1>,
-                <&macro_release>,
-                <&kp LSHFT>,
-                <&macro_tap>,
-                <&kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
+		task_unlock: task-unlock {
+			label = "unlock tap";
+			compatible = "zmk,behavior-macro";
+			#binding-cells = <0>;
+			bindings = <&macro_press   &kp LSHFT>,
+				   <&macro_tap     &kp L>,
+				   <&macro_release &kp LSHFT>,
+				   <&macro_tap     &kp W &kp F>,
+				   <&macro_press   &kp LSHFT>,
+				   <&macro_tap     &kp N1>,
+				   <&macro_release &kp LSHFT>,
+
+				   <&macro_tap     &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
         };
 
         lock_tap: lock_tap {
