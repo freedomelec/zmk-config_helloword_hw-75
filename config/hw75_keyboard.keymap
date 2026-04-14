@@ -78,7 +78,7 @@
 				&trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans          &trans  &trans
 				&trans          &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
 				&trans  &trans  &trans                          &trans                  &trans  &trans  &trans  &trans  &trans  &trans
-                        &lock_tap  &none   &none   &none   &none   &kp C_VOL_UP
+                        &tp C_VOL_UP  &none   &none   &none   &none   &kp C_VOL_UP
 			>;
 		};
 	};
