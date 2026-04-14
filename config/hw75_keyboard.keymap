@@ -17,7 +17,7 @@
 
 / {
 	macros {
-		task_unlock: task-unlock {
+		task_unlock: task_unlock {
 			label = "unlock tap";
 			compatible = "zmk,behavior-macro";
 			#binding-cells = <0>;
