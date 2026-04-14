@@ -35,9 +35,9 @@
 			label = "unlock tap";
 			compatible = "zmk,behavior-macro";
 			#binding-cells = <0>;
-			bindings = <&macro_press   &kp LGUI>,
+			bindings = <&macro_press   &kp LSHFT>,
 				   <&macro_tap     &kp L>,
-				   <&macro_release &kp LGUI>;
+				   <&macro_release &kp LSHFT>;
 		};
     };
 
