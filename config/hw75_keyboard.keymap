@@ -31,14 +31,6 @@
 
 				   <&macro_tap     &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp N1 &kp RET>;
 		};
-		lock_tap: lock-tap {
-			label = "unlock tap";
-			compatible = "zmk,behavior-macro";
-			#binding-cells = <0>;
-			bindings = <&macro_press   &kp LGUI>,
-				   <&macro_tap     &kp L>,
-				   <&macro_release &kp LGUI>;
-		};
     };
 
 	keymap {
