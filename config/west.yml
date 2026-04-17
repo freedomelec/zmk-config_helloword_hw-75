@@ -2,7 +2,7 @@ manifest:
   projects:
     - name: zmk
       url: https://github.com/xingrz/zmk.git
-      revision: zmkx-rel-20251223
+      revision: zmkx-rel-20241223
       import: app/west.yml
   self:
     path: config
