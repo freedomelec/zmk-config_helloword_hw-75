@@ -38,6 +38,11 @@
 	chain-length = <103>;
 };
 
-&rgb_underglow {
-    key-trail;
+/ {
+    rgb_underglow: rgb_underglow {
+        compatible = "zmk,rgb-underglow";
+        led-strip = <&led_strip>;
+        status = "okay";
+        key-trail;
+    };
 };
