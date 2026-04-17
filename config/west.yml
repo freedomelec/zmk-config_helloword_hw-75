@@ -1,8 +1,11 @@
 manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
   projects:
     - name: zmk
-      url: https://github.com/xingrz/zmk.git
-      revision: zmkx-rel-20231018
+      remote: zmkfirmware
+      revision: main  # 👈 改成 main 或 v0.12.0
       import: app/west.yml
   self:
     path: config
