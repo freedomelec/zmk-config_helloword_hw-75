@@ -19,12 +19,14 @@
 LOG_MODULE_REGISTER(knob, CONFIG_ZMK_LOG_LEVEL);
 
 struct knob_data {
+	const struct device *self;
+
 	int32_t delta;
 
 	sensor_trigger_handler_t handler;
 	const struct sensor_trigger *trigger;
 
-	K_THREAD_STACK_MEMBER(thread_stack, CONFIG_KNOB_THREAD_STACK_SIZE);
+	K_KERNEL_STACK_MEMBER(thread_stack, CONFIG_KNOB_THREAD_STACK_SIZE);
 	struct k_thread thread;
 
 	struct k_work report_work;
@@ -182,7 +184,7 @@ float knob_get_velocity(const struct device *dev)
 static void knob_report_work_handler(struct k_work *work)
 {
 	struct knob_data *data = CONTAINER_OF(work, struct knob_data, report_work);
-	const struct device *dev = CONTAINER_OF(data, struct device, data);
+	const struct device *dev = data->self;
 
 	if (data->handler != NULL) {
 		data->handler(dev, data->trigger);
@@ -250,6 +252,8 @@ int knob_init(const struct device *dev)
 		return -ENODEV;
 	}
 
+	data->self = dev;
+
 	data->mc = motor_get_control(config->motor);
 
 	data->params.ppr = data->encoder_ppr;
@@ -274,8 +278,8 @@ int knob_init(const struct device *dev)
 		.encoder_ppr = DT_INST_PROP(n, ppr),                                               \
 	};                                                                                         \
                                                                                                    \
-	static const struct device *knob_profiles_##n[] = { DT_INST_FOREACH_CHILD_STATUS_OKAY(     \
-		n, KNOB_PROFILE_ELEM) };                                                           \
+	static const struct device *knob_profiles_##n[] = {                                        \
+		DT_INST_FOREACH_CHILD_STATUS_OKAY(n, KNOB_PROFILE_ELEM)};                          \
                                                                                                    \
 	static const struct knob_config knob_config_##n = {                                        \
 		.motor = DEVICE_DT_GET(DT_INST_PHANDLE(n, motor)),                                 \

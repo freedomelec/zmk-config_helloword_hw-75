@@ -91,8 +91,7 @@ static void usb_comm_handle_message()
 	d2h.action = h2d.action;
 	d2h.which_payload = usb_comm_MessageD2H_nop_tag;
 
-	STRUCT_SECTION_FOREACH(usb_comm_handler_config, config)
-	{
+	STRUCT_SECTION_FOREACH(usb_comm_handler_config, config) {
 		if (config->action == h2d.action) {
 			if (config->handler(&h2d, &d2h, bytes_field, bytes_field_len)) {
 				d2h.which_payload = config->response_payload;
@@ -148,10 +147,8 @@ static void usb_comm_thread_entry(void *p1, void *p2, void *p3)
 	}
 }
 
-static int usb_comm_init(const struct device *dev)
+static int usb_comm_init(void)
 {
-	ARG_UNUSED(dev);
-
 	k_sem_init(&usb_comm_sem, 0, 1);
 
 	k_thread_create(&usb_comm_thread, usb_comm_thread_stack,
