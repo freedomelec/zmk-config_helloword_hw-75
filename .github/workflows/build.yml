@@ -17,7 +17,7 @@ jobs:
     timeout-minutes: 90
 
     container:
-      image: ghcr.io/zmkfirmware/zmk-build-arm:stable
+      image: zmkfirmware/zmk-build-arm:stable
 
     steps:
       - name: Prepare variables
@@ -30,6 +30,21 @@ jobs:
       - name: Set up build tools
         run: |
           set -eux
+
+          apt-get update
+          apt-get install -y \
+            python3-pip \
+            python3-venv \
+            python3-setuptools \
+            python3-protobuf \
+            python3-pyelftools \
+            protobuf-compiler \
+            curl \
+            git \
+            ca-certificates
+
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+          apt-get install -y nodejs
 
           python3 -m venv /tmp/pytools
           /tmp/pytools/bin/pip install -U pip wheel
