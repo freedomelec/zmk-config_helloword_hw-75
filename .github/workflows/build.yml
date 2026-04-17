@@ -78,7 +78,7 @@ jobs:
         run: |
           set -eux
           export PATH="/tmp/pytools/bin:$PATH"
-
+          rm -rf build || true
           west init -l config
           west update --narrow || west update --narrow
           west zephyr-export
